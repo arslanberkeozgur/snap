@@ -34,12 +34,14 @@ class Player:
 
     def __init__(self):
         self.points = 0
+        self.collected_cards = []
 
     def collect_card(self,card):
         if card.rank == "Ace" or card.rank == "Jack":
             self.points += 1
-        if (card.rank == "Two" and card.suit == "Clubs") or (card.rank == "Ten" and card.suit == "Diamonds") :
+        if (card.rank == "Two" and card.suit == "Clubs") or (card.rank == "Ten" and card.suit == "Diamonds"):
             self.points += 3
+        self.collected_cards.append(card)
 
 
 class Hand:
@@ -68,10 +70,10 @@ class Ground:
             self._top_card = None
         return self._top_card
 
-    def to_ground(self,card):
+    def to_ground(self, card):
         self.cards.append(card)
 
-    def clear(self,):
+    def clear(self):
         self.cards = []
 
 while True:     # Game loop
@@ -266,10 +268,19 @@ while True:     # Game loop
         turn += 1
         if not deck.deck:
 
+
             print("\n"*40)
             print("No cards in deck. Game over.".center(180))
             print("\n"*5)
+            if len(player.collected_cards) > len(emmi.collected_cards):
+                player.points += 3
+            elif len(player.collected_cards) < len(emmi.collected_cards):
+                emmi.points += 3
+            else:
+                pass
             print(f"Player points: {player.points} | Emmi points: {emmi.points}".center(180))
+            print("\n"*3)
+            print(f"Player collected {len(player.collected_cards)} cards, Emmi collected {len(emmi.collected_cards)}.")
             print("\n"*5)
             if player.points < emmi.points:
                 print("Emmi wins.".center(180))
