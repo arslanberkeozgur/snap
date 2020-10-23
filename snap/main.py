@@ -129,13 +129,12 @@ while True:     # Game loop
                     if choice.rank == ground.top_card.rank or choice.rank == "Jack":
                         match = 1
                     ground.to_ground(p_hand.remove_card(choice))
-                    if match == 1:
+                    if match == 1 and choice.rank == ground.cards[len(ground.cards)-2]:
                         if len(ground.cards) == 2:
                             player.points += 10
                             print("\n" * 40)
                             print("Snap!".center(180))
                             enter_to_cont()
-
                         for card in ground.cards:
                             player.collect_card(card)
                         print("\n"*40)
